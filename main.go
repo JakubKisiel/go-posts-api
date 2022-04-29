@@ -1,12 +1,14 @@
 package main
 
-import "net/http"
+import (
+	"io"
+	"net/http"
+)
 
 type HttpHandler struct{}
 
 func (h HttpHandler) ServeHTTP(res http.ResponseWriter, r *http.Request) {
-	data := []byte("Hello, world\n")
-	res.Write(data)
+	io.WriteString(res, "Hello, world!\n")
 }
 
 func main() {
