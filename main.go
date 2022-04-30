@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"sync"
@@ -17,6 +18,9 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
+		fmt.Println("Starting Http server")
 		http.ListenAndServe(":9000", HttpHandler{})
 	}()
+	wg.Wait()
+	fmt.Println("Server is closed")
 }
