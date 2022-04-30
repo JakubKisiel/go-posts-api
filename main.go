@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"net/http"
+	"sync"
 )
 
 type HttpHandler struct{}
@@ -12,5 +13,10 @@ func (h HttpHandler) ServeHTTP(res http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.ListenAndServe(":9000", HttpHandler{})
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		http.ListenAndServe(":9000", HttpHandler{})
+	}()
 }
